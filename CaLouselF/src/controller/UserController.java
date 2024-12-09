@@ -30,7 +30,7 @@ public class UserController {
 
     public static Response<User> checkAccountValidation(String username, String password, String phoneNumber, String address, String role) {
         String error = "";
-        if (username.isEmpty() || password.isEmpty() || address.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty() || address.isEmpty() || (!role.equals("Seller") && !role.equals("Buyer"))) {
             error = "All fields are required";
         } else if (username.length() < 3) {
             error = "Username must be at least 3 characters";
@@ -42,8 +42,6 @@ public class UserController {
             error = "Username already exists";
         } else if (!passwordValid(password)) {
             error = "Password must contain at least one special character";
-        } else if (!role.equals("Seller") && !role.equals("Buyer")) {
-            error = "Invalid role";
         }
 
         if (!error.isEmpty()) {
