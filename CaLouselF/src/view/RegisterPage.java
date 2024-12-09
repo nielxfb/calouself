@@ -13,6 +13,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import middleware.AuthMiddleware;
 import model.User;
 import util.StageManager;
 
@@ -29,13 +30,22 @@ public class RegisterPage extends VBox {
 	private Label errorLbl;
 
 	public RegisterPage() {
+		middleware();
 		initPage();
 		addEvent();
+	}
+	
+	private void middleware() {
+		if (AuthMiddleware.loggedIn()) {
+			StageManager st = StageManager.getInstance(null);
+			st.getStage().getScene().setRoot(new HomePage());
+		}
 	}
 
 	public void initPage() {
 		title = new Label("Register");
 		title.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
+		VBox.setMargin(title, new Insets(0, 0, 15, 0));
 
 		usernameLb = new Label("Username");
 		passLb = new Label("Password");
