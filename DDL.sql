@@ -6,7 +6,7 @@ create table users (
     address varchar(50),
     role varchar(10),
     primary key (user_id)
-)
+);
 
 create table items (
     item_id varchar(50),
@@ -16,5 +16,5 @@ create table items (
     item_category varchar(50),
     item_status varchar(50),
     wishlist_id varchar(50),
-    
-)
+    primary key(item_id)
+);

@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import util.StageManager;
-import view.RegisterPage;
+import view.LoginPage;
 
 public class Main extends Application {
 
@@ -15,7 +15,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		StageManager st = StageManager.getInstance(primaryStage);
-		st.getStage().setScene(new Scene(new RegisterPage(), 800, 600));
+		st.getStage().setScene(new Scene(new LoginPage(), 800, 600));
 		st.getStage().show();
 	}
 
