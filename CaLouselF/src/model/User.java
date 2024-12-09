@@ -31,7 +31,6 @@ public class User {
                 return new User(rs.getString("username"), rs.getString("password"), rs.getString("phone_number"), rs.getString("address"), rs.getString("role"));
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
         return null;
