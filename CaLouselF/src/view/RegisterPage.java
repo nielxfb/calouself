@@ -22,11 +22,11 @@ public class RegisterPage extends VBox {
 	private Button registerBtn;
 
 	public RegisterPage() {
-		init();
+		initPage();
 		addEvent();
 	}
 
-	public void init() {
+	public void initPage() {
 		title = new Label("Register");
 		title.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
 
