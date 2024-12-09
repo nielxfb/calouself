@@ -6,69 +6,83 @@ import model.User;
 
 public class UserController {
 
-    public static Response<User> login(String username, String password) {
-        User user = User.find(username);
-        if (user == null) {
-            return new ResponseBuilder<User>(false).withMessage("User not found").build();
-        }
+	public static Response<User> login(String username, String password) {
+		if (username.isEmpty() || password.isEmpty()) {
+			return new ResponseBuilder<User>(false).withMessage("All fields are required!").build();
+		}
+		
+		User user;
+		try {
 
-        if (!user.getPassword().equals(password)) {
-            return new ResponseBuilder<User>(false).withMessage("Invalid credentials").build();
-        }
+			user = User.find(username);
+			if (user == null) {
+				return new ResponseBuilder<User>(false).withMessage("User not found").build();
+			}
 
-        return new ResponseBuilder<User>(true).withData(user).build();
-    }
+			if (!user.getPassword().equals(password)) {
+				return new ResponseBuilder<User>(false).withMessage("Invalid credentials").build();
+			}
 
-    public static Response<User> register(String username, String password, String phoneNumber, String address, String role) {
-        Response<User> response = checkAccountValidation(username, password, phoneNumber, address, role);
-        if (!response.isSuccess) {
-            return response;
-        }
+		} catch (Exception e) {
+			return new ResponseBuilder<User>(false).withMessage("Invalid credentials").build();
+		}
 
-        return new ResponseBuilder<User>(true).withData(response.data).build();
-    }
+		return new ResponseBuilder<User>(true).withData(user).build();
+	}
 
-    public static Response<User> checkAccountValidation(String username, String password, String phoneNumber, String address, String role) {
-        String error = "";
-        if (username.isEmpty() || password.isEmpty() || address.isEmpty() || (!role.equals("Seller") && !role.equals("Buyer"))) {
-            error = "All fields are required";
-        } else if (username.length() < 3) {
-            error = "Username must be at least 3 characters";
-        } else if (password.length() < 8) {
-            error = "Password must be at least 8 characters";
-        } else if (!phoneNumberValid(phoneNumber)) {
-            error = "Invalid phone number";
-        } else if (exists(username)) {
-            error = "Username already exists";
-        } else if (!passwordValid(password)) {
-            error = "Password must contain at least one special character";
-        }
+	public static Response<User> register(String username, String password, String phoneNumber, String address,
+			String role) {
+		Response<User> response = checkAccountValidation(username, password, phoneNumber, address, role);
+		if (!response.isSuccess) {
+			return response;
+		}
 
-        if (!error.isEmpty()) {
-            return new ResponseBuilder<User>(false).withMessage(error).build();
-        }
+		return new ResponseBuilder<User>(true).withData(response.data).build();
+	}
 
-        User user = new User(username, password, phoneNumber, address, role);
-        user.create();
+	public static Response<User> checkAccountValidation(String username, String password, String phoneNumber,
+			String address, String role) {
+		String error = "";
+		if (username.isEmpty() || password.isEmpty() || address.isEmpty()
+				|| (!role.equals("Seller") && !role.equals("Buyer"))) {
+			error = "All fields are required";
+		} else if (username.length() < 3) {
+			error = "Username must be at least 3 characters";
+		} else if (password.length() < 8) {
+			error = "Password must be at least 8 characters";
+		} else if (!phoneNumberValid(phoneNumber)) {
+			error = "Invalid phone number";
+		} else if (exists(username)) {
+			error = "Username already exists";
+		} else if (!passwordValid(password)) {
+			error = "Password must contain at least one special character";
+		}
 
-        return new ResponseBuilder<User>(true).withData(user).build();
-    }
+		if (!error.isEmpty()) {
+			return new ResponseBuilder<User>(false).withMessage(error).build();
+		}
 
-    public static Boolean exists(String username) {
-        return User.find(username) != null;
-    }
+		User user = new User(username, password, phoneNumber, address, role);
+		user.create();
 
-    public static Boolean passwordValid(String password) {
-        for (char c : password.toCharArray()) {
-            if (!Character.isLetterOrDigit(c)) {
-                return true;
-            }
-        }
-        return false;
-    }
+		return new ResponseBuilder<User>(true).withData(user).build();
+	}
 
-    public static Boolean phoneNumberValid(String phoneNumber) {
-        return phoneNumber.startsWith("+62") && phoneNumber.length() >= 12;
-    }
+	public static Boolean exists(String username) {
+		return User.find(username) != null;
+	}
+
+	public static Boolean passwordValid(String password) {
+		for (char c : password.toCharArray()) {
+			if (!Character.isLetterOrDigit(c)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static Boolean phoneNumberValid(String phoneNumber) {
+		return phoneNumber.startsWith("+62") && phoneNumber.length() >= 12;
+	}
 
 }
