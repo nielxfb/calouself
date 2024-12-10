@@ -24,4 +24,8 @@ public class SessionManager {
 		this.user = user;
 	}
 
+	public void logout() {
+		user = null;
+	}
+
 }
