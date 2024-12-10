@@ -13,6 +13,7 @@ public class HomePage extends Page<VBox> {
 	private Label title;
 
 	public HomePage() {
+		super(new VBox());
 		middleware();
 		initPage();
 		addEvent();

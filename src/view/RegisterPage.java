@@ -31,6 +31,7 @@ public class RegisterPage extends Page<VBox> {
 	private Label errorLbl;
 
 	public RegisterPage() {
+		super(new VBox());
 		middleware();
 		initPage();
 		addEvent();

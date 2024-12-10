@@ -27,6 +27,7 @@ public class LoginPage extends Page<VBox> {
 	private Hyperlink registerLink;
 	
 	public LoginPage() {
+		super(new VBox());
 		middleware();
 		initPage();
 		addEvent();
