@@ -8,7 +8,7 @@ public final class Connect {
 	private final String PASSWORD = "root";
 	private final String DATABASE = "calouself";
 	private final String HOST = "localhost:3306";
-	private final String CONECTION = String.format("jdbc:mysql://%s/%s", HOST, DATABASE);
+	private final String CONNECTION = String.format("jdbc:mysql://%s/%s", HOST, DATABASE);
 
 	private Connection con;
 	private Statement st;
@@ -17,7 +17,7 @@ public final class Connect {
 	private Connect() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection(CONECTION, USERNAME, PASSWORD);
+			con = DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
 			st = con.createStatement();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,16 +46,6 @@ public final class Connect {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public PreparedStatement prepareStatement(String query) {
-		PreparedStatement ps = null;
-		try {
-			ps = con.prepareStatement(query);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return ps;
 	}
 
 }
