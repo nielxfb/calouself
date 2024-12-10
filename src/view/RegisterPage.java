@@ -1,5 +1,6 @@
 package view;
 
+import abstraction.Page;
 import abstraction.Response;
 import controller.UserController;
 import javafx.geometry.Insets;
@@ -17,7 +18,7 @@ import middleware.AuthMiddleware;
 import model.User;
 import util.StageManager;
 
-public class RegisterPage extends VBox {
+public class RegisterPage extends Page<VBox> {
 
 	private Label title;
 	private Label usernameLb, passLb, phoneLb, addressLb, roleLb;
@@ -34,14 +35,16 @@ public class RegisterPage extends VBox {
 		initPage();
 		addEvent();
 	}
-	
-	private void middleware() {
+
+	@Override
+	public void middleware() {
 		if (AuthMiddleware.loggedIn()) {
 			StageManager st = StageManager.getInstance(null);
-			st.getStage().getScene().setRoot(new HomePage());
+			st.getStage().getScene().setRoot(new HomePage().layout);
 		}
 	}
 
+	@Override
 	public void initPage() {
 		title = new Label("Register");
 		title.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
@@ -71,19 +74,20 @@ public class RegisterPage extends VBox {
 
 		roleGroup.getToggles().addAll(buyerBtn, sellerBtn);
 
-		this.getChildren().addAll(title, usernameLb, usernameTf, passLb, passTf, phoneLb, phoneTf, addressLb, addressTf,
+		layout.getChildren().addAll(title, usernameLb, usernameTf, passLb, passTf, phoneLb, phoneTf, addressLb, addressTf,
 				roleLb, buyerBtn, sellerBtn, errorLbl, registerBtn, loginLink);
 
-		this.setPadding(new Insets(20));
-		this.setSpacing(5);
+		layout.setPadding(new Insets(20));
+		layout.setSpacing(5);
 	}
-	
-	private void addEvent() {
+
+	@Override
+	public void addEvent() {
 		registerBtn.setOnMouseClicked(e -> {
-			String username = usernameTf.getText();
+			String username = usernameTf.getText().trim();
 			String password = passTf.getText();
-			String phoneNumber = phoneTf.getText();
-			String address = addressTf.getText();
+			String phoneNumber = phoneTf.getText().trim();
+			String address = addressTf.getText().trim();
 			String role = roleGroup.getSelectedToggle() != null
 					? ((RadioButton) roleGroup.getSelectedToggle()).getText()
 					: "";
@@ -91,7 +95,7 @@ public class RegisterPage extends VBox {
 			Response<User> response = UserController.register(username, password, phoneNumber, address, role);
 			if (response.isSuccess) {
 				StageManager st = StageManager.getInstance(null);
-				st.getStage().getScene().setRoot(new LoginPage());
+				st.getStage().getScene().setRoot(new LoginPage().layout);
 			} else {
 				errorLbl.setText(response.message);
 			}
@@ -99,7 +103,7 @@ public class RegisterPage extends VBox {
 		
 		loginLink.setOnMouseClicked(e -> {
 			StageManager st = StageManager.getInstance(null);
-			st.getStage().getScene().setRoot(new LoginPage());
+			st.getStage().getScene().setRoot(new LoginPage().layout);
 		});
 	}
 	

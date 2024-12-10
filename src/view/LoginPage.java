@@ -1,5 +1,6 @@
 package view;
 
+import abstraction.Page;
 import abstraction.Response;
 import controller.UserController;
 import javafx.geometry.Insets;
@@ -16,7 +17,7 @@ import model.User;
 import util.SessionManager;
 import util.StageManager;
 
-public class LoginPage extends VBox {
+public class LoginPage extends Page<VBox> {
 	
 	private Label title;
 	private Label usernameLbl, passwordLbl, errorLbl;
@@ -30,15 +31,17 @@ public class LoginPage extends VBox {
 		initPage();
 		addEvent();
 	}
-	
-	private void middleware() {
+
+	@Override
+	public void middleware() {
 		if (AuthMiddleware.loggedIn()) {
 			StageManager st = StageManager.getInstance(null);
-			st.getStage().getScene().setRoot(new HomePage());
+			st.getStage().getScene().setRoot(new HomePage().layout);
 		}
 	}
-	
-	private void initPage() {
+
+	@Override
+	public void initPage() {
 		title = new Label("Login Page");
 		title.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
 		VBox.setMargin(title, new Insets(0, 0, 15, 0));
@@ -55,22 +58,23 @@ public class LoginPage extends VBox {
 		loginBtn = new Button("Login");
 		registerLink = new Hyperlink("Register here.");
 		
-		this.getChildren().addAll(title, usernameLbl, usernameTf, passwordLbl, passwordTf, errorLbl, loginBtn, registerLink);
+		layout.getChildren().addAll(title, usernameLbl, usernameTf, passwordLbl, passwordTf, errorLbl, loginBtn, registerLink);
 		
-		this.setPadding(new Insets(20));
-		this.setSpacing(5);
+		layout.setPadding(new Insets(20));
+		layout.setSpacing(5);
 	}
-	
-	private void addEvent() {
+
+	@Override
+	public void addEvent() {
 		loginBtn.setOnMouseClicked(e -> {
-			String username = usernameTf.getText();
+			String username = usernameTf.getText().trim();
 			String password = passwordTf.getText();
 			Response<User> response = UserController.login(username, password);
 			if (response.isSuccess) {
 				SessionManager session = SessionManager.getInstance();
 				session.setUser(response.data);
 				StageManager st = StageManager.getInstance(null);
-				st.getStage().getScene().setRoot(new HomePage());
+				st.getStage().getScene().setRoot(new HomePage().layout);
 			} else {
 				errorLbl.setText(response.message);
 			}
@@ -78,7 +82,7 @@ public class LoginPage extends VBox {
 		
 		registerLink.setOnMouseClicked(e -> {
 			StageManager st = StageManager.getInstance(null);
-			st.getStage().getScene().setRoot(new RegisterPage());
+			st.getStage().getScene().setRoot(new RegisterPage().layout);
 		});
 	}
 

@@ -15,7 +15,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		StageManager st = StageManager.getInstance(primaryStage);
-		st.getStage().setScene(new Scene(new LoginPage(), 800, 600));
+		st.getStage().setScene(new Scene(new LoginPage().layout, 800, 600));
 		st.getStage().show();
 	}
 
