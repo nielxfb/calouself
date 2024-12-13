@@ -1,14 +1,9 @@
 package view;
 
-import abstraction.Response;
-import controller.ItemController;
-import javafx.collections.FXCollections;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Item;
-
-import java.util.ArrayList;
 
 public class ItemTable extends TableView<Item> {
 

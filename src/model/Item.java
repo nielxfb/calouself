@@ -71,6 +71,12 @@ public class Item {
         return null;
     }
 
+    public void update() {
+        String query = "UPDATE items SET item_name = '" + itemName + "', item_category = '" + itemCategory + "', item_size = '" + itemSize + "', item_price = " + itemPrice + ", item_status = '" + itemStatus + "' WHERE item_id = '" + itemId + "'";
+        Connect db = Connect.getConnection();
+        db.executeUpdate(query);
+    }
+
     public void delete() {
         String query = "DELETE FROM items WHERE item_id = '" + itemId + "'";
         Connect db = Connect.getConnection();

@@ -14,7 +14,7 @@ public class ItemController {
             return new ResponseBuilder<Item>(false).withMessage(response.message).build();
         }
 
-        Item item = new Item("", name, size, category, Integer.parseInt(price), "Pending");
+        Item item = new Item("", name, category, size, Integer.parseInt(price), "Pending");
         item.save();
         return new ResponseBuilder<Item>(true).withMessage("Successfully uploaded item!").build();
     }
@@ -42,6 +42,21 @@ public class ItemController {
 
         item.delete();
         return new ResponseBuilder<Item>(true).withMessage("Successfully deleted item!").build();
+    }
+
+    public static Response<Item> editItem(String id, String name, String size, String category, String price, String status) {
+        Response<Boolean> response = checkItemValidation(name, category, size, price);
+        if (!response.isSuccess) {
+            return new ResponseBuilder<Item>(false).withMessage(response.message).build();
+        }
+
+        if (id.trim().isEmpty()) {
+            return new ResponseBuilder<Item>(false).withMessage("Please select an item!").build();
+        }
+
+        Item item = new Item(id, name, category, size, Integer.parseInt(price), status);
+        item.update();
+        return new ResponseBuilder<Item>(true).withMessage("Successfully edited item!").build();
     }
 
     public static Response<Boolean> checkItemValidation(String name, String category, String size, String price) {
