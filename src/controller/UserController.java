@@ -62,7 +62,7 @@ public class UserController {
 			return new ResponseBuilder<User>(false).withMessage(error).build();
 		}
 
-		User user = new User(username, password, phoneNumber, address, role);
+		User user = new User("", username, password, phoneNumber, address, role);
 		user.create();
 
 		return new ResponseBuilder<User>(true).withData(user).build();

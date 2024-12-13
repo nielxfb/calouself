@@ -14,8 +14,8 @@ public class User {
     private String address;
     private String role;
 
-    public User(String username, String password, String phoneNumber, String address, String role) {
-        this.userId = UUID.randomUUID().toString();
+    public User(String userId, String username, String password, String phoneNumber, String address, String role) {
+        this.userId = userId != null ? userId : UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -28,7 +28,7 @@ public class User {
         Connect db = Connect.getConnection();
         try (ResultSet rs = db.executeQuery(query)) {
             if (rs.next()) {
-                return new User(rs.getString("username"), rs.getString("password"), rs.getString("phone_number"), rs.getString("address"), rs.getString("role"));
+                return new User(rs.getString("user_id"), rs.getString("username"), rs.getString("password"), rs.getString("phone_number"), rs.getString("address"), rs.getString("role"));
             }
         } catch (Exception e) {
             return null;
