@@ -17,21 +17,14 @@ public class ItemTable extends TableView<Item> {
         TableColumn<Item, String> categoryCol = new TableColumn<>("Category");
         TableColumn<Item, String> sizeCol = new TableColumn<>("Size");
         TableColumn<Item, Integer> priceCol = new TableColumn<>("Price");
+        TableColumn<Item, String> statusCol = new TableColumn<>("Status");
 
         nameCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
         categoryCol.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
         sizeCol.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
         priceCol.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<>("itemStatus"));
 
-        getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol);
-
-        getData();
-    }
-
-    private void getData() {
-        Response<ArrayList<Item>> response = ItemController.getAll();
-        if (response.isSuccess) {
-            this.setItems(FXCollections.observableArrayList(response.data));
-        }
+        getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, statusCol);
     }
 }

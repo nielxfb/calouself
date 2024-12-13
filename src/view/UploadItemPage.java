@@ -1,6 +1,9 @@
 package view;
 
 import abstraction.Page;
+import abstraction.Response;
+import controller.ItemController;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -9,11 +12,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import middleware.AuthMiddleware;
+import model.Item;
+import util.AlertManager;
 import util.StageManager;
+
+import java.util.ArrayList;
 
 public class UploadItemPage extends Page<BorderPane> {
 
-    private UploadItemForm form;
+    private ItemForm form;
 
     public UploadItemPage() {
         super(new BorderPane());
@@ -45,19 +52,41 @@ public class UploadItemPage extends Page<BorderPane> {
         vb.setPadding(new Insets(20));
 
         ItemTable table = new ItemTable();
-        form = new UploadItemForm("Upload");
+        form = new ItemForm("Upload");
 
         HBox hb = new HBox();
         hb.getChildren().addAll(table, form);
         vb.getChildren().add(hb);
         vb.setSpacing(10);
         hb.setSpacing(25);
+
+        Response<ArrayList<Item>> response = ItemController.getApproved();
+        if (response.isSuccess) {
+            table.setItems(FXCollections.observableArrayList(response.data));
+        } else {
+            table.setPlaceholder(new Label(response.message));
+        }
     }
 
     @Override
     public void addEvent() {
         form.btn.setOnAction(e -> {
+            String name = form.nameField.getText();
+            String category = form.categoryField.getText();
+            String size = form.sizeField.getText();
+            Integer price;
+            try {
+                price = Integer.parseInt(form.priceField.getText());
+            } catch (NumberFormatException ex) {
+                price = null;
+            }
 
+            Response<Item> response = ItemController.uploadItem(name, size, category, price);
+            if (response.isSuccess) {
+                AlertManager.showSuccess("Successfully uploaded item! Please wait for it to be approved.");
+            } else {
+                AlertManager.showError(response.message);
+            }
         });
     }
 }
