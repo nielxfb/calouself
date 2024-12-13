@@ -74,12 +74,7 @@ public class UploadItemPage extends Page<BorderPane> {
             String name = form.nameField.getText();
             String category = form.categoryField.getText();
             String size = form.sizeField.getText();
-            Integer price;
-            try {
-                price = Integer.parseInt(form.priceField.getText());
-            } catch (NumberFormatException ex) {
-                price = null;
-            }
+            String price = form.priceField.getText();
 
             Response<Item> response = ItemController.uploadItem(name, size, category, price);
             if (response.isSuccess) {
