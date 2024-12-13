@@ -15,6 +15,11 @@ public class SellerNavbar extends MenuBar {
 
         home.getItems().addAll(uploadItem, logout);
 
+        uploadItem.setOnAction(e -> {
+            StageManager st = StageManager.getInstance(null);
+            st.getStage().getScene().setRoot(new HomePage().layout);
+        });
+
         logout.setOnAction(e -> {
             SessionManager session = SessionManager.getInstance();
             session.logout();
