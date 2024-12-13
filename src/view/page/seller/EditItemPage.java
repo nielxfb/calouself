@@ -66,7 +66,11 @@ public class EditItemPage extends Page<BorderPane> {
         vb.setSpacing(10);
         hb.setSpacing(25);
 
-        Response<ArrayList<Item>> response = ItemController.getApproved();
+        getData();
+    }
+    
+    private void getData() {
+    	Response<ArrayList<Item>> response = ItemController.getApproved();
         if (response.isSuccess) {
             table.setItems(FXCollections.observableArrayList(response.data));
         } else {
@@ -98,6 +102,7 @@ public class EditItemPage extends Page<BorderPane> {
             Response<Item> response = ItemController.editItem(selectedItem.getItemId(), name, size, category, price, selectedItem.getItemStatus());
             if (response.isSuccess) {
                 AlertManager.showSuccess("Item updated successfully");
+                getData();
             } else {
                 AlertManager.showError(response.message);
             }
