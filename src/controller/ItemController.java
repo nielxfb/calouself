@@ -35,6 +35,14 @@ public class ItemController {
         return new ResponseBuilder<ArrayList<Item>>(true).withData(items).build();
     }
 
+    public static Response<ArrayList<Item>> getPending() {
+        ArrayList<Item> items = Item.getPending();
+        if (items.isEmpty()) {
+            return new ResponseBuilder<ArrayList<Item>>(false).withMessage("There is no item yet.").build();
+        }
+        return new ResponseBuilder<ArrayList<Item>>(true).withData(items).build();
+    }
+
     public static Response<Item> deleteItem(Item item) {
         if (item == null) {
             return new ResponseBuilder<Item>(false).withMessage("Please select an item!").build();
@@ -82,6 +90,28 @@ public class ItemController {
         }
 
         return new ResponseBuilder<Boolean>(true).build();
+    }
+
+    public static Response<Boolean> approveItem(Item item) {
+        if (item == null) {
+            return new ResponseBuilder<Boolean>(false).withMessage("Please select an item to decline!").build();
+        }
+
+        item.approve();
+        return new ResponseBuilder<Boolean>(true).withMessage("Successfully approved item!").build();
+    }
+
+    public static Response<Boolean> declineItem(Item item, String reason) {
+        if (item == null) {
+            return new ResponseBuilder<Boolean>(false).withMessage("Please select an item to decline!").build();
+        }
+
+        if (reason.trim().isEmpty()) {
+            return new ResponseBuilder<Boolean>(false).withMessage("Reason must not be empty!").build();
+        }
+
+        item.delete();
+        return new ResponseBuilder<Boolean>(true).withMessage("Item is removed.").build();
     }
 
 }

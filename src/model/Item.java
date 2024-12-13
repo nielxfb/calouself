@@ -41,6 +41,23 @@ public class Item {
         return items;
     }
 
+    public static ArrayList<Item> getPending() {
+        String query = "SELECT * FROM items WHERE item_status = 'Pending'";
+        ArrayList<Item> items = new ArrayList<>();
+        Connect db = Connect.getConnection();
+        try {
+            ResultSet rs = db.executeQuery(query);
+            while (rs.next()) {
+                Item item = new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"), rs.getString("item_status"));
+                items.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return items;
+    }
+
     public static ArrayList<Item> getAll() {
         String query = "SELECT * FROM items";
         ArrayList<Item> items = new ArrayList<>();
@@ -85,6 +102,12 @@ public class Item {
 
     public void save() {
         String query = "INSERT INTO items (item_id, item_name, item_category, item_size, item_price, item_status) VALUES ('" + itemId + "', '" + itemName + "', '" + itemCategory + "', '" + itemSize + "', " + itemPrice + ", '" + itemStatus + "')";
+        Connect db = Connect.getConnection();
+        db.executeUpdate(query);
+    }
+
+    public void approve() {
+        String query = "UPDATE items set item_status = 'Approved' WHERE item_id = '" + itemId + "'";
         Connect db = Connect.getConnection();
         db.executeUpdate(query);
     }
