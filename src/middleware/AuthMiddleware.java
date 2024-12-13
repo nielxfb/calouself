@@ -9,4 +9,9 @@ public class AuthMiddleware {
 		return session.getUser() != null;
 	}
 
+	public static String getRole() {
+		SessionManager session = SessionManager.getInstance();
+		return session.getUser().getRole();
+	}
+
 }
