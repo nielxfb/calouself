@@ -78,6 +78,7 @@ public class DeleteItemPage extends Page<BorderPane> {
             if (response.isSuccess) {
                 AlertManager.showSuccess(response.message);
                 table.getItems().remove(selectedItem);
+                selectedItem = null;
             } else {
                 AlertManager.showError(response.message);
             }
