@@ -12,9 +12,8 @@ create table items (
     item_id varchar(50),
     item_name varchar(50),
     item_size varchar(50),
-    item_price varchar(50),
+    item_price int,
     item_category varchar(50),
     item_status varchar(50),
-    wishlist_id varchar(50),
     primary key(item_id)
 );
