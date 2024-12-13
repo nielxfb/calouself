@@ -5,15 +5,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class UploadItemForm extends VBox {
+public class ItemForm extends VBox {
 
-    private TextField nameField;
-    private TextField categoryField;
-    private TextField sizeField;
-    private TextField priceField;
+    public TextField nameField;
+    public TextField categoryField;
+    public TextField sizeField;
+    public TextField priceField;
     public Button btn;
 
-    public UploadItemForm(String buttonText) {
+    public ItemForm(String buttonText) {
         Label nameLbl = new Label("Name");
         Label categoryLbl = new Label("Category");
         Label sizeLbl = new Label("Size");

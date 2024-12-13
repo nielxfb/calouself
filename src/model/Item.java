@@ -13,13 +13,32 @@ public class Item {
     private String itemCategory;
     private String itemSize;
     private Integer itemPrice;
+    private String itemStatus;
 
-    public Item(String itemId, String itemName, String itemCategory, String itemSize, Integer itemPrice) {
+    public Item(String itemId, String itemName, String itemCategory, String itemSize, Integer itemPrice, String itemStatus) {
         this.itemId = !itemId.isEmpty() ? itemId : UUID.randomUUID().toString();
         this.itemName = itemName;
         this.itemCategory = itemCategory;
         this.itemSize = itemSize;
         this.itemPrice = itemPrice;
+        this.itemStatus = itemStatus;
+    }
+
+    public static ArrayList<Item> getApproved() {
+        String query = "SELECT * FROM items WHERE item_status = 'Approved'";
+        ArrayList<Item> items = new ArrayList<>();
+        Connect db = Connect.getConnection();
+        try {
+            ResultSet rs = db.executeQuery(query);
+            while (rs.next()) {
+                Item item = new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"), rs.getString("item_status"));
+                items.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return items;
     }
 
     public static ArrayList<Item> getAll() {
@@ -29,11 +48,12 @@ public class Item {
         try {
             ResultSet rs = db.executeQuery(query);
             while (rs.next()) {
-                Item item = new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"));
+                Item item = new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"), rs.getString("item_status"));
                 items.add(item);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
         return items;
     }
@@ -43,7 +63,7 @@ public class Item {
         Connect db = Connect.getConnection();
         try (ResultSet rs = db.executeQuery(query)) {
             if (rs.next()) {
-                return new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"));
+                return new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"), rs.getString("item_status"));
             }
         } catch (Exception e) {
             return null;
@@ -51,8 +71,20 @@ public class Item {
         return null;
     }
 
+    public void update() {
+        String query = "UPDATE items SET item_name = '" + itemName + "', item_category = '" + itemCategory + "', item_size = '" + itemSize + "', item_price = " + itemPrice + ", item_status = '" + itemStatus + "' WHERE item_id = '" + itemId + "'";
+        Connect db = Connect.getConnection();
+        db.executeUpdate(query);
+    }
+
     public void delete() {
         String query = "DELETE FROM items WHERE item_id = '" + itemId + "'";
+        Connect db = Connect.getConnection();
+        db.executeUpdate(query);
+    }
+
+    public void save() {
+        String query = "INSERT INTO items (item_id, item_name, item_category, item_size, item_price, item_status) VALUES ('" + itemId + "', '" + itemName + "', '" + itemCategory + "', '" + itemSize + "', " + itemPrice + ", '" + itemStatus + "')";
         Connect db = Connect.getConnection();
         db.executeUpdate(query);
     }
@@ -95,5 +127,13 @@ public class Item {
 
     public void setItemPrice(Integer itemPrice) {
         this.itemPrice = itemPrice;
+    }
+
+    public String getItemStatus() {
+        return itemStatus;
+    }
+
+    public void setItemStatus(String itemStatus) {
+        this.itemStatus = itemStatus;
     }
 }
