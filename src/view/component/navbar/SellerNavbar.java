@@ -15,11 +15,14 @@ public class SellerNavbar extends MenuBar {
     public SellerNavbar() {
         Menu home = new Menu("Home");
         MenuItem homePage = new MenuItem("Home Page");
+        MenuItem logout = new MenuItem("Logout");
+        home.getItems().addAll(homePage, logout);
+
+        Menu item = new Menu("Item");
         MenuItem uploadItem = new MenuItem("Upload Item");
         MenuItem editItem = new MenuItem("Edit Item");
         MenuItem deleteItem = new MenuItem("Delete Item");
-        MenuItem logout = new MenuItem("Logout");
-        home.getItems().addAll(homePage, uploadItem, editItem, deleteItem, logout);
+        item.getItems().addAll(uploadItem, editItem, deleteItem);
 
         StageManager st = StageManager.getInstance(null);
 
@@ -45,7 +48,7 @@ public class SellerNavbar extends MenuBar {
             st.getStage().getScene().setRoot(new LoginPage().layout);
         });
 
-        getMenus().addAll(home);
+        getMenus().addAll(home, item);
     }
 
 }
