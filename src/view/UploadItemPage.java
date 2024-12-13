@@ -1,28 +1,21 @@
 package view;
 
 import abstraction.Page;
-import abstraction.Response;
-import controller.ItemController;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import middleware.AuthMiddleware;
-import model.Item;
-import util.AlertManager;
 import util.StageManager;
 
-public class HomePage extends Page<BorderPane> {
+public class UploadItemPage extends Page<BorderPane> {
 
-    String role;
+    private UploadItemForm form;
 
-    public HomePage() {
+    public UploadItemPage() {
         super(new BorderPane());
         middleware();
         initPage();
@@ -35,29 +28,36 @@ public class HomePage extends Page<BorderPane> {
             StageManager st = StageManager.getInstance(null);
             st.getStage().getScene().setRoot(new LoginPage().layout);
         }
-
-        role = AuthMiddleware.getRole();
     }
 
     @Override
     public void initPage() {
-        Label title = new Label("Home Page");
-        title.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
-        if (role.equals("Seller")) layout.setTop(new SellerNavbar());
+        Label title = new Label("Upload Item");
+        layout.setTop(new SellerNavbar());
 
-        Label description = new Label("Welcome to calouself. Please select an option from the menu above.");
+        title.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
 
         VBox vb = new VBox();
-        vb.getChildren().addAll(title, description);
-
-        vb.setAlignment(Pos.CENTER);
-        vb.setSpacing(10);
-
         layout.setCenter(vb);
+
+        vb.getChildren().add(title);
+
+        vb.setPadding(new Insets(20));
+
+        ItemTable table = new ItemTable();
+        form = new UploadItemForm("Upload");
+
+        HBox hb = new HBox();
+        hb.getChildren().addAll(table, form);
+        vb.getChildren().add(hb);
+        vb.setSpacing(10);
+        hb.setSpacing(25);
     }
 
     @Override
     public void addEvent() {
+        form.btn.setOnAction(e -> {
 
+        });
     }
 }

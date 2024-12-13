@@ -38,6 +38,25 @@ public class Item {
         return items;
     }
 
+    public static Item find(String itemId) {
+        String query = "SELECT * FROM items WHERE item_id = '" + itemId + "'";
+        Connect db = Connect.getConnection();
+        try (ResultSet rs = db.executeQuery(query)) {
+            if (rs.next()) {
+                return new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
+    }
+
+    public void delete() {
+        String query = "DELETE FROM items WHERE item_id = '" + itemId + "'";
+        Connect db = Connect.getConnection();
+        db.executeUpdate(query);
+    }
+
     public String getItemId() {
         return itemId;
     }

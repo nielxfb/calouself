@@ -16,4 +16,18 @@ public class ItemController {
         return new ResponseBuilder<ArrayList<Item>>(true).withData(items).build();
     }
 
+    public static Response<Item> deleteItem(String itemId) {
+        if (itemId.trim().isEmpty()) {
+            return new ResponseBuilder<Item>(false).withMessage("Item ID is required!").build();
+        }
+
+        Item item = Item.find(itemId);
+        if (item == null) {
+            return new ResponseBuilder<Item>(false).withMessage("Item not found").build();
+        }
+
+        item.delete();
+        return new ResponseBuilder<Item>(true).withMessage("Successfully deleted item!").build();
+    }
+
 }

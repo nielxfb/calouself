@@ -11,9 +11,9 @@ public class UploadItemForm extends VBox {
     private TextField categoryField;
     private TextField sizeField;
     private TextField priceField;
-    private Button uploadBtn;
+    public Button btn;
 
-    public UploadItemForm() {
+    public UploadItemForm(String buttonText) {
         Label nameLbl = new Label("Name");
         Label categoryLbl = new Label("Category");
         Label sizeLbl = new Label("Size");
@@ -24,22 +24,10 @@ public class UploadItemForm extends VBox {
         sizeField = new TextField();
         priceField = new TextField();
 
-        uploadBtn = new Button("Upload");
+        btn = new Button(buttonText);
 
-        getChildren().addAll(nameLbl, nameField, categoryLbl, categoryField, sizeLbl, sizeField, priceLbl, priceField, uploadBtn);
+        getChildren().addAll(nameLbl, nameField, categoryLbl, categoryField, sizeLbl, sizeField, priceLbl, priceField, btn);
         setSpacing(5);
-
-        addEvent();
-    }
-
-    private void addEvent() {
-        uploadBtn.setOnAction(e -> {
-            String name = nameField.getText();
-            String category = categoryField.getText();
-            String size = sizeField.getText();
-            String price = priceField.getText();
-
-        });
     }
 
 }
