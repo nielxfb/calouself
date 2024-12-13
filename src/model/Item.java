@@ -4,6 +4,7 @@ import util.Connect;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Item {
 
@@ -14,7 +15,7 @@ public class Item {
     private Integer itemPrice;
 
     public Item(String itemId, String itemName, String itemCategory, String itemSize, Integer itemPrice) {
-        this.itemId = itemId;
+        this.itemId = !itemId.isEmpty() ? itemId : UUID.randomUUID().toString();
         this.itemName = itemName;
         this.itemCategory = itemCategory;
         this.itemSize = itemSize;

@@ -15,7 +15,7 @@ public class User {
     private String role;
 
     public User(String userId, String username, String password, String phoneNumber, String address, String role) {
-        this.userId = userId != null ? userId : UUID.randomUUID().toString();
+        this.userId = !userId.isEmpty() ? userId : UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber;
