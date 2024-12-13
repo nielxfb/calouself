@@ -48,24 +48,18 @@ public class ItemController {
         String error = "";
         if (name.trim().isEmpty() || category.trim().isEmpty() || size.trim().isEmpty() || price.trim().isEmpty()) {
             error = "Please fill all required fields!";
+        } else if (name.length() < 3) {
+            error = "Name must be at least 3 characters!";
+        } else if (category.length() < 3) {
+            error = "Category must be at least 3 characters!";
         }
 
         try {
-            Integer.parseInt(price);
-        } catch (NumberFormatException e) {
+            if (Integer.parseInt(price) == 0) {
+                error = "Price must be greater than 0!";
+            }
+        } catch (Exception e) {
             error = "Price must be a number!";
-        }
-
-        if (Integer.parseInt(price) == 0) {
-            error = "Price must be greater than 0!";
-        }
-
-        if (name.length() < 3) {
-            error = "Name must be at least 3 characters!";
-        }
-
-        if (category.length() < 3) {
-            error = "Category must be at least 3 characters!";
         }
 
         if (!error.isEmpty()) {
