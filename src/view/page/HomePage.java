@@ -9,6 +9,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import middleware.AuthMiddleware;
 import util.StageManager;
+import view.component.navbar.AdminNavbar;
 import view.component.navbar.SellerNavbar;
 
 public class HomePage extends Page<BorderPane> {
@@ -37,6 +38,7 @@ public class HomePage extends Page<BorderPane> {
         Label title = new Label("Home Page");
         title.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
         if (role.equals("Seller")) layout.setTop(new SellerNavbar());
+        else if (role.equals("Admin")) layout.setTop(new AdminNavbar());
 
         Label description = new Label("Welcome to calouself. Please select an option from the menu above.");
 
