@@ -1,13 +1,13 @@
-package view;
+package view.page.seller;
 
 import abstraction.Page;
 import abstraction.Response;
 import controller.ItemController;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -15,16 +15,19 @@ import middleware.AuthMiddleware;
 import model.Item;
 import util.AlertManager;
 import util.StageManager;
+import view.component.item.ItemTable;
+import view.component.navbar.SellerNavbar;
+import view.page.LoginPage;
 
 import java.util.ArrayList;
 
-public class EditItemPage extends Page<BorderPane> {
+public class DeleteItemPage extends Page<BorderPane> {
 
     private ItemTable table;
-    private ItemForm form;
     private Item selectedItem;
+    private Button delBtn;
 
-    public EditItemPage() {
+    public DeleteItemPage() {
         super(new BorderPane());
         middleware();
         initPage();
@@ -41,7 +44,7 @@ public class EditItemPage extends Page<BorderPane> {
 
     @Override
     public void initPage() {
-        Label title = new Label("Edit Item");
+        Label title = new Label("Delete Item");
         layout.setTop(new SellerNavbar());
 
         title.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
@@ -54,13 +57,10 @@ public class EditItemPage extends Page<BorderPane> {
         vb.setPadding(new Insets(20));
 
         table = new ItemTable();
-        form = new ItemForm("Edit");
+        delBtn = new Button("Delete");
 
-        HBox hb = new HBox();
-        hb.getChildren().addAll(table, form);
-        vb.getChildren().add(hb);
+        vb.getChildren().addAll(table, delBtn);
         vb.setSpacing(10);
-        hb.setSpacing(25);
 
         Response<ArrayList<Item>> response = ItemController.getApproved();
         if (response.isSuccess) {
@@ -74,26 +74,14 @@ public class EditItemPage extends Page<BorderPane> {
     public void addEvent() {
         table.setOnMouseClicked(e -> {
             selectedItem = table.getSelectionModel().getSelectedItem();
-            form.nameField.setText(selectedItem.getItemName());
-            form.sizeField.setText(selectedItem.getItemSize());
-            form.categoryField.setText(selectedItem.getItemCategory());
-            form.priceField.setText(String.valueOf(selectedItem.getItemPrice()));
         });
 
-        form.btn.setOnAction(e -> {
-            if (selectedItem == null) {
-                AlertManager.showError("Please select an item to edit!");
-                return;
-            }
-
-            String name = form.nameField.getText();
-            String category = form.categoryField.getText();
-            String size = form.sizeField.getText();
-            String price = form.priceField.getText();
-
-            Response<Item> response = ItemController.editItem(selectedItem.getItemId(), name, size, category, price, selectedItem.getItemStatus());
+        delBtn.setOnAction(e -> {
+            Response<Item> response = ItemController.deleteItem(selectedItem);
             if (response.isSuccess) {
-                AlertManager.showSuccess("Item updated successfully");
+                AlertManager.showSuccess(response.message);
+                table.getItems().remove(selectedItem);
+                selectedItem = null;
             } else {
                 AlertManager.showError(response.message);
             }

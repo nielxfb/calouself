@@ -1,4 +1,4 @@
-package view;
+package view.page;
 
 import abstraction.Page;
 import abstraction.Response;

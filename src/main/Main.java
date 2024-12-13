@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import util.StageManager;
-import view.LoginPage;
+import view.page.LoginPage;
 
 public class Main extends Application {
 

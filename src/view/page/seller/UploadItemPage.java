@@ -1,4 +1,4 @@
-package view;
+package view.page.seller;
 
 import abstraction.Page;
 import abstraction.Response;
@@ -15,6 +15,10 @@ import middleware.AuthMiddleware;
 import model.Item;
 import util.AlertManager;
 import util.StageManager;
+import view.component.item.ItemForm;
+import view.component.item.ItemTable;
+import view.component.navbar.SellerNavbar;
+import view.page.LoginPage;
 
 import java.util.ArrayList;
 

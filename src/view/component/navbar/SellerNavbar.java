@@ -1,10 +1,14 @@
-package view;
+package view.component.navbar;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import util.SessionManager;
 import util.StageManager;
+import view.page.*;
+import view.page.seller.DeleteItemPage;
+import view.page.seller.EditItemPage;
+import view.page.seller.UploadItemPage;
 
 public class SellerNavbar extends MenuBar {
 

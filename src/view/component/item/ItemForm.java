@@ -1,4 +1,4 @@
-package view;
+package view.component.item;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

@@ -1,4 +1,4 @@
-package view;
+package view.component.item;
 
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;

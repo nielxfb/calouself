@@ -1,22 +1,15 @@
-package view;
+package view.page;
 
 import abstraction.Page;
-import abstraction.Response;
-import controller.ItemController;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import middleware.AuthMiddleware;
-import model.Item;
-import util.AlertManager;
 import util.StageManager;
+import view.component.navbar.SellerNavbar;
 
 public class HomePage extends Page<BorderPane> {
 
