@@ -1,6 +1,7 @@
 package view;
 
 import abstraction.Page;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -77,6 +78,8 @@ public class HomePage extends Page<BorderPane> {
 
 				delBtn = new Button("Delete Selected Item");
 				vb2.getChildren().add(delBtn);
+
+				VBox.setMargin(delBtn, new Insets(20, 0, 0, 0));
 
 				hb.setSpacing(25);
 				vb.getChildren().add(hb);
