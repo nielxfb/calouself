@@ -84,7 +84,7 @@ public class RegisterPage extends Page<VBox> {
 
 	@Override
 	public void addEvent() {
-		registerBtn.setOnMouseClicked(e -> {
+		registerBtn.setOnAction(e -> {
 			String username = usernameTf.getText().trim();
 			String password = passTf.getText();
 			String phoneNumber = phoneTf.getText().trim();

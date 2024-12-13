@@ -67,7 +67,7 @@ public class LoginPage extends Page<VBox> {
 
 	@Override
 	public void addEvent() {
-		loginBtn.setOnMouseClicked(e -> {
+		loginBtn.setOnAction(e -> {
 			String username = usernameTf.getText().trim();
 			String password = passwordTf.getText();
 			Response<User> response = UserController.login(username, password);
