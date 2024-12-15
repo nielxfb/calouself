@@ -5,6 +5,7 @@ import abstraction.Response;
 import controller.WishlistController;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -12,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import model.Item;
 import model.Wishlist;
+import util.AlertManager;
 import util.SessionManager;
 import view.component.item.ItemTable;
 import view.component.navbar.UserNavbar;
@@ -19,6 +21,10 @@ import view.component.navbar.UserNavbar;
 import java.util.ArrayList;
 
 public class WishlistPage extends Page<BorderPane> {
+
+    private ItemTable table;
+    private Item selectedItem;
+    private Button removeFromWishlistBtn;
 
     public WishlistPage() {
         super(new BorderPane());
@@ -38,7 +44,7 @@ public class WishlistPage extends Page<BorderPane> {
         Label title = new Label(SessionManager.getInstance().getUser().getUsername() + "'s Wishlist");
         title.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
 
-        ItemTable table = new ItemTable();
+        table = new ItemTable();
 
         Response<ArrayList<Wishlist>> response = WishlistController.getWishlist();
         if (response.isSuccess) {
@@ -51,12 +57,26 @@ public class WishlistPage extends Page<BorderPane> {
             table.setPlaceholder(new Label(response.message));
         }
 
-        vb.getChildren().addAll(title, table);
+        removeFromWishlistBtn = new Button("Remove from wishlist");
+
+        vb.getChildren().addAll(title, table, removeFromWishlistBtn);
         layout.setCenter(vb);
     }
 
     @Override
     public void addEvent() {
+        table.setOnMouseClicked(e -> {
+            selectedItem = table.getSelectionModel().getSelectedItem();
+        });
 
+        removeFromWishlistBtn.setOnAction(e -> {
+            Response<Wishlist> response = WishlistController.removeWishlist(selectedItem);
+            if (response.isSuccess) {
+                AlertManager.showSuccess(response.message);
+                table.getItems().remove(selectedItem);
+            } else {
+                AlertManager.showError(response.message);
+            }
+        });
     }
 }
