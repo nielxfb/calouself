@@ -37,3 +37,13 @@ create table transactions (
     foreign key (user_id) references users (user_id),
     foreign key (item_id) references items (item_id)
 );
+
+create table offers (
+    offer_id varchar(50),
+    user_id varchar(50),
+    item_id varchar(50),
+    offer_price int,
+    primary key (offer_id),
+    foreign key (user_id) references users (user_id),
+    foreign key (item_id) references items (item_id)
+);

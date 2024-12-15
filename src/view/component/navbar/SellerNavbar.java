@@ -8,6 +8,7 @@ import util.StageManager;
 import view.page.*;
 import view.page.seller.DeleteItemPage;
 import view.page.seller.EditItemPage;
+import view.page.seller.OfferedItemsPage;
 import view.page.seller.UploadItemPage;
 
 public class SellerNavbar extends MenuBar {
@@ -23,6 +24,10 @@ public class SellerNavbar extends MenuBar {
         MenuItem editItem = new MenuItem("Edit Item");
         MenuItem deleteItem = new MenuItem("Delete Item");
         item.getItems().addAll(uploadItem, editItem, deleteItem);
+
+        Menu offer = new Menu("Offer");
+        MenuItem viewOfferedItems = new MenuItem("View Offered Items");
+        offer.getItems().add(viewOfferedItems);
 
         StageManager st = StageManager.getInstance(null);
 
@@ -48,7 +53,11 @@ public class SellerNavbar extends MenuBar {
             st.getStage().getScene().setRoot(new LoginPage().layout);
         });
 
-        getMenus().addAll(home, item);
+        viewOfferedItems.setOnAction(e -> {
+            st.getStage().getScene().setRoot(new OfferedItemsPage().layout);
+        });
+
+        getMenus().addAll(home, item, offer);
     }
 
 }

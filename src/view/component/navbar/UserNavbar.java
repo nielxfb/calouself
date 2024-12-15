@@ -7,6 +7,7 @@ import util.SessionManager;
 import util.StageManager;
 import view.page.LoginPage;
 import view.page.user.ItemsPage;
+import view.page.user.TransactionHistoryPage;
 import view.page.user.WishlistPage;
 
 public class UserNavbar extends MenuBar {
@@ -19,7 +20,8 @@ public class UserNavbar extends MenuBar {
 
         Menu item = new Menu("Item");
         MenuItem wishlist = new MenuItem("View Wishlist");
-        item.getItems().addAll(wishlist);
+        MenuItem history = new MenuItem("View History");
+        item.getItems().addAll(wishlist, history);
 
         StageManager st = StageManager.getInstance(null);
 
@@ -35,6 +37,10 @@ public class UserNavbar extends MenuBar {
 
         wishlist.setOnAction(e -> {
             st.getStage().getScene().setRoot(new WishlistPage().layout);
+        });
+
+        history.setOnAction(e -> {
+            st.getStage().getScene().setRoot(new TransactionHistoryPage().layout);
         });
 
         getMenus().addAll(home, item);
