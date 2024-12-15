@@ -12,6 +12,13 @@ import java.util.ArrayList;
 
 public class OfferController {
 
+    /**
+     * Creates an offer for the specified item with the given offer price.
+     *
+     * @param item the item for which the offer is being made
+     * @param offerPrice the price of the offer
+     * @return a response containing the created offer or an error message
+     */
     public static Response<Offer> createOffer(Item item, String offerPrice) {
         String error = "";
         if (item == null) {
@@ -47,6 +54,11 @@ public class OfferController {
         return new ResponseBuilder<Offer>(true).withMessage("Offer created successfully! Please wait for it to be approved.").build();
     }
 
+    /**
+     * Retrieves offers made by the current user.
+     *
+     * @return a response containing a list of offers or an error message
+     */
     public static Response<ArrayList<Offer>> getBySellerId() {
         User user = SessionManager.getInstance().getUser();
         if (user == null) {
@@ -66,6 +78,12 @@ public class OfferController {
         return new ResponseBuilder<ArrayList<Offer>>(true).withData(offers).build();
     }
 
+    /**
+     * Accepts the specified offer and creates a transaction.
+     *
+     * @param offer the offer to accept
+     * @return a response indicating the success or failure of the acceptance
+     */
     public static Response<Offer> acceptOffer(Offer offer) {
         if (offer == null) {
             return new ResponseBuilder<Offer>(false).withMessage("Please select an offer!").build();
@@ -80,6 +98,13 @@ public class OfferController {
         }
     }
 
+    /**
+     * Declines the specified offer with a reason.
+     *
+     * @param offer the offer to decline
+     * @param reason the reason for declining the offer
+     * @return a response indicating the success or failure of the decline
+     */
     public static Response<Offer> declineOffer(Offer offer, String reason) {
         if (offer == null) {
             return new ResponseBuilder<Offer>(false).withMessage("Please select an offer!").build();

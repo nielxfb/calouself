@@ -9,6 +9,13 @@ import java.util.ArrayList;
 
 public class TransactionController {
 
+    /**
+     * Creates a transaction for the specified item and user.
+     *
+     * @param item the item to be purchased
+     * @param userId the ID of the user making the purchase
+     * @return a response containing the created transaction or an error message
+     */
     public static Response<Transaction> createTransaction(Item item, String userId) {
         if (item == null) {
             return new ResponseBuilder<Transaction>(false).withMessage("Please select an item first!").build();
@@ -21,6 +28,11 @@ public class TransactionController {
         return new ResponseBuilder<Transaction>(true).withMessage("Successfully purchased item!").build();
     }
 
+    /**
+     * Retrieves the transaction history for the current user.
+     *
+     * @return a response containing a list of transaction histories or an error message
+     */
     public static Response<ArrayList<History>> viewHistory() {
         User user = SessionManager.getInstance().getUser();
         if (user == null) {
