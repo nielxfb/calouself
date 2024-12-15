@@ -161,4 +161,12 @@ public class Item {
     public void setItemStatus(String itemStatus) {
         this.itemStatus = itemStatus;
     }
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
 }

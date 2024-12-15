@@ -25,6 +25,15 @@ create table wishlists (
     user_id varchar(50),
     item_id varchar(50),
     primary key (wishlist_id),
-    foreign key user_id references users (user_id),
-    foreign key item_id references items (item_id)
+    foreign key (user_id) references users (user_id),
+    foreign key (item_id) references items (item_id)
+);
+
+create table transactions (
+    transaction_id varchar(50),
+    user_id varchar(50),
+    item_id varchar(50),
+    primary key (transaction_id),
+    foreign key (user_id) references users (user_id),
+    foreign key (item_id) references items (item_id)
 );

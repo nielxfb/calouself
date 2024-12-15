@@ -67,6 +67,12 @@ public class Wishlist {
         db.executeUpdate(query);
     }
 
+    public static void removeItem(String itemId) {
+        String query = "DELETE FROM wishlists WHERE item_id = '" + itemId + "'";
+        Connect db = Connect.getConnection();
+        db.executeUpdate(query);
+    }
+
     public String getWishlistId() {
         return wishlistId;
     }
