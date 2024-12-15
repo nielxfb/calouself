@@ -21,18 +21,17 @@ public class WishlistController {
         return false;
     }
 
-    public static Response<Wishlist> addToWishlist(String itemId) {
-        Item item = Item.find(itemId);
+    public static Response<Wishlist> addToWishlist(Item item) {
         if (item == null) {
-            return new ResponseBuilder<Wishlist>(false).withMessage("Item not found!").build();
+            return new ResponseBuilder<Wishlist>(false).withMessage("Please select an item!").build();
         }
 
         User user = SessionManager.getInstance().getUser();
-        if (itemExists(user.getUserId(), itemId)) {
+        if (itemExists(user.getUserId(), item.getItemId())) {
             return new ResponseBuilder<Wishlist>(false).withMessage("Item already in wishlist!").build();
         }
 
-        Wishlist wishlist = new Wishlist("", user.getUserId(), itemId, item);
+        Wishlist wishlist = new Wishlist("", user.getUserId(), item.getItemId(), item);
         wishlist.save();
         return new ResponseBuilder<Wishlist>(true).withMessage("Successfully added to wishlist!").build();
     }
