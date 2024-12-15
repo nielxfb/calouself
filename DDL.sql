@@ -15,5 +15,16 @@ create table items (
     item_price int,
     item_category varchar(50),
     item_status varchar(50),
-    primary key(item_id)
+    seller_id varchar(50),
+    primary key(item_id),
+    foreign key (seller_id) references users (user_id)
+);
+
+create table wishlists (
+    wishlist_id varchar(50),
+    user_id varchar(50),
+    item_id varchar(50),
+    primary key (wishlist_id),
+    foreign key user_id references users (user_id),
+    foreign key item_id references items (item_id)
 );
