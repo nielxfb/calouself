@@ -22,4 +22,6 @@ public class ItemTable extends TableView<Item> {
 
         getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, statusCol);
     }
+    
+   
 }

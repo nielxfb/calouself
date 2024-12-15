@@ -11,6 +11,7 @@ import middleware.AuthMiddleware;
 import util.StageManager;
 import view.component.navbar.AdminNavbar;
 import view.component.navbar.SellerNavbar;
+import view.component.navbar.UserNavbar;
 
 public class HomePage extends Page<BorderPane> {
 
@@ -39,7 +40,9 @@ public class HomePage extends Page<BorderPane> {
         title.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
         if (role.equals("Seller")) layout.setTop(new SellerNavbar());
         else if (role.equals("Admin")) layout.setTop(new AdminNavbar());
-
+        // USER
+        else if(role.equals("Buyer")) layout.setTop(new UserNavbar());
+        
         Label description = new Label("Welcome to calouself. Please select an option from the menu above.");
 
         VBox vb = new VBox();

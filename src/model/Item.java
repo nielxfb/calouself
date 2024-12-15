@@ -40,6 +40,7 @@ public class Item {
         }
         return items;
     }
+        
 
     public static ArrayList<Item> getPending() {
         String query = "SELECT * FROM items WHERE item_status = 'Pending'";
