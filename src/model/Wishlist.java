@@ -27,6 +27,22 @@ public class Wishlist {
         db.executeUpdate(query);
     }
 
+    public static Wishlist getByItemAndUser(String itemId, String userId) {
+        String query = "SELECT * FROM wishlists WHERE item_id = '" + itemId + "' AND user_id = '" + userId + "'";
+        Connect db = Connect.getConnection();
+        Item item = Item.find(itemId);
+        try {
+            ResultSet rs = db.executeQuery(query);
+            if (rs.next()) {
+                return new Wishlist(rs.getString("wishlist_id"), rs.getString("user_id"), rs.getString("item_id"), item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
     public static ArrayList<Wishlist> getByUser(String userId) {
         String query = "SELECT * FROM wishlists JOIN items ON wishlists.item_id = items.item_id WHERE user_id = '" + userId + "'";
         Connect db = Connect.getConnection();
@@ -43,6 +59,12 @@ public class Wishlist {
             return null;
         }
         return wishlists;
+    }
+
+    public void remove() {
+        String query = "DELETE FROM wishlists WHERE wishlist_id = '" + wishlistId + "'";
+        Connect db = Connect.getConnection();
+        db.executeUpdate(query);
     }
 
     public String getWishlistId() {

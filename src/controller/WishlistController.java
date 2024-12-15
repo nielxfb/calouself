@@ -5,6 +5,7 @@ import builder.ResponseBuilder;
 import model.Item;
 import model.User;
 import model.Wishlist;
+import util.AlertManager;
 import util.SessionManager;
 
 import java.util.ArrayList;
@@ -48,6 +49,25 @@ public class WishlistController {
         }
 
         return new ResponseBuilder<ArrayList<Wishlist>>(true).withData(wishlists).build();
+    }
+
+    public static Response<Wishlist> removeWishlist(Item item) {
+        if (item == null) {
+            return new ResponseBuilder<Wishlist>(false).withMessage("Please select an item first!").build();
+        }
+
+        User user = SessionManager.getInstance().getUser();
+        if (!itemExists(user.getUserId(), item.getItemId())) {
+            return new ResponseBuilder<Wishlist>(false).withMessage("Item not found in wishlist!").build();
+        }
+
+        Wishlist wishlist = Wishlist.getByItemAndUser(item.getItemId(), user.getUserId());
+        if (wishlist == null) {
+            return new ResponseBuilder<Wishlist>(false).withMessage("Wishlist not found!").build();
+        }
+
+        wishlist.remove();
+        return new ResponseBuilder<Wishlist>(true).withMessage("Successfully removed from wishlist!").build();
     }
 
 }
