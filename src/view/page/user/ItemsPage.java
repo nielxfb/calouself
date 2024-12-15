@@ -3,6 +3,7 @@ package view.page.user;
 import abstraction.Page;
 import abstraction.Response;
 import controller.ItemController;
+import controller.TransactionController;
 import controller.WishlistController;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -15,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import middleware.AuthMiddleware;
 import model.Item;
+import model.Transaction;
 import model.Wishlist;
 import util.AlertManager;
 import util.StageManager;
@@ -77,12 +79,17 @@ public class ItemsPage extends Page<BorderPane> {
         });
 
         purchaseBtn.setOnAction(e -> {
-            if (selectedItem == null) {
-                AlertManager.showError("Please select an item first!");
+            Boolean purchase = AlertManager.showPopUp("Are you sure you want to purchase this item?");
+            if (!purchase) {
                 return;
             }
-            StageManager st = StageManager.getInstance(null);
-//            st.getStage().getScene().setRoot(new PurchaseItemPage(selectedItem).layout);
+            Response<Transaction> response = TransactionController.createTransaction(selectedItem);
+            if (response.isSuccess) {
+                AlertManager.showSuccess(response.message);
+                selectedItem = null;
+            } else {
+                AlertManager.showError(response.message);
+            }
         });
 
         makeOfferBtn.setOnAction(e -> {

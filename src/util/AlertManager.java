@@ -1,6 +1,9 @@
 package util;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
+import java.util.Optional;
 
 public class AlertManager {
 
@@ -18,6 +21,15 @@ public class AlertManager {
         alert.setHeaderText("Successfully done");
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public static Boolean showPopUp(String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText("Please confirm your action");
+        alert.setContentText(message);
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
     }
 
 }
