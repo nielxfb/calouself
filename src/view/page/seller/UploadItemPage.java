@@ -34,14 +34,6 @@ public class UploadItemPage extends Page<BorderPane> {
     }
 
     @Override
-    public void middleware() {
-        if (!AuthMiddleware.loggedIn()) {
-            StageManager st = StageManager.getInstance(null);
-            st.getStage().getScene().setRoot(new LoginPage().layout);
-        }
-    }
-
-    @Override
     public void initPage() {
         Label title = new Label("Upload Item");
         layout.setTop(new SellerNavbar());

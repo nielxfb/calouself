@@ -14,14 +14,16 @@ public class Item {
     private String itemSize;
     private Integer itemPrice;
     private String itemStatus;
+    private String sellerId;
 
-    public Item(String itemId, String itemName, String itemCategory, String itemSize, Integer itemPrice, String itemStatus) {
+    public Item(String itemId, String itemName, String itemCategory, String itemSize, Integer itemPrice, String itemStatus, String sellerId) {
         this.itemId = !itemId.isEmpty() ? itemId : UUID.randomUUID().toString();
         this.itemName = itemName;
         this.itemCategory = itemCategory;
         this.itemSize = itemSize;
         this.itemPrice = itemPrice;
         this.itemStatus = itemStatus;
+        this.sellerId = sellerId;
     }
 
     public static ArrayList<Item> getApproved() {
@@ -31,7 +33,7 @@ public class Item {
         try {
             ResultSet rs = db.executeQuery(query);
             while (rs.next()) {
-                Item item = new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"), rs.getString("item_status"));
+                Item item = new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"), rs.getString("item_status"), rs.getString("seller_id"));
                 items.add(item);
             }
         } catch (Exception e) {
@@ -48,7 +50,7 @@ public class Item {
         try {
             ResultSet rs = db.executeQuery(query);
             while (rs.next()) {
-                Item item = new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"), rs.getString("item_status"));
+                Item item = new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"), rs.getString("item_status"), rs.getString("seller_id"));
                 items.add(item);
             }
         } catch (Exception e) {
@@ -65,7 +67,7 @@ public class Item {
         try {
             ResultSet rs = db.executeQuery(query);
             while (rs.next()) {
-                Item item = new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"), rs.getString("item_status"));
+                Item item = new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"), rs.getString("item_status"), rs.getString("seller_id"));
                 items.add(item);
             }
         } catch (Exception e) {
@@ -80,7 +82,7 @@ public class Item {
         Connect db = Connect.getConnection();
         try (ResultSet rs = db.executeQuery(query)) {
             if (rs.next()) {
-                return new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"), rs.getString("item_status"));
+                return new Item(rs.getString("item_id"), rs.getString("item_name"), rs.getString("item_category"), rs.getString("item_size"), rs.getInt("item_price"), rs.getString("item_status"), rs.getString("seller_id"));
             }
         } catch (Exception e) {
             return null;
@@ -101,7 +103,7 @@ public class Item {
     }
 
     public void save() {
-        String query = "INSERT INTO items (item_id, item_name, item_category, item_size, item_price, item_status) VALUES ('" + itemId + "', '" + itemName + "', '" + itemCategory + "', '" + itemSize + "', " + itemPrice + ", '" + itemStatus + "')";
+        String query = "INSERT INTO items (item_id, item_name, item_category, item_size, item_price, item_status, seller_id) VALUES ('" + itemId + "', '" + itemName + "', '" + itemCategory + "', '" + itemSize + "', " + itemPrice + ", '" + itemStatus + "', '" + sellerId + "')";
         Connect db = Connect.getConnection();
         db.executeUpdate(query);
     }

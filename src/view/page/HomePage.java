@@ -11,6 +11,7 @@ import middleware.AuthMiddleware;
 import util.StageManager;
 import view.component.navbar.AdminNavbar;
 import view.component.navbar.SellerNavbar;
+import view.page.user.ItemsPage;
 
 public class HomePage extends Page<BorderPane> {
 

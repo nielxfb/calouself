@@ -16,6 +16,7 @@ import middleware.AuthMiddleware;
 import model.User;
 import util.SessionManager;
 import util.StageManager;
+import view.page.user.ItemsPage;
 
 public class LoginPage extends Page<VBox> {
 	
@@ -73,9 +74,14 @@ public class LoginPage extends Page<VBox> {
 			Response<User> response = UserController.login(username, password);
 			if (response.isSuccess) {
 				SessionManager session = SessionManager.getInstance();
-				session.setUser(response.data);
+				User user = response.data;
+				session.setUser(user);
 				StageManager st = StageManager.getInstance(null);
-				st.getStage().getScene().setRoot(new HomePage().layout);
+				if (user.getRole().equals("Buyer")) {
+					st.getStage().getScene().setRoot(new ItemsPage().layout);
+				} else {
+					st.getStage().getScene().setRoot(new HomePage().layout);
+				}
 			} else {
 				errorLbl.setText(response.message);
 			}

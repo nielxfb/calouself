@@ -3,6 +3,7 @@ package controller;
 import abstraction.Response;
 import builder.ResponseBuilder;
 import model.Item;
+import util.SessionManager;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class ItemController {
             return new ResponseBuilder<Item>(false).withMessage(response.message).build();
         }
 
-        Item item = new Item("", name, category, size, Integer.parseInt(price), "Pending");
+        Item item = new Item("", name, category, size, Integer.parseInt(price), "Pending", SessionManager.getInstance().getUser().getUserId());
         item.save();
         return new ResponseBuilder<Item>(true).withMessage("Successfully uploaded item!").build();
     }
@@ -62,7 +63,7 @@ public class ItemController {
             return new ResponseBuilder<Item>(false).withMessage("Please select an item!").build();
         }
 
-        Item item = new Item(id, name, category, size, Integer.parseInt(price), status);
+        Item item = new Item(id, name, category, size, Integer.parseInt(price), status, SessionManager.getInstance().getUser().getUserId());
         item.update();
         return new ResponseBuilder<Item>(true).withMessage("Successfully edited item!").build();
     }
