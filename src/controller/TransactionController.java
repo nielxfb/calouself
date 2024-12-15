@@ -10,13 +10,12 @@ import util.SessionManager;
 
 public class TransactionController {
 
-    public static Response<Transaction> createTransaction(Item item) {
+    public static Response<Transaction> createTransaction(Item item, String userId) {
         if (item == null) {
             return new ResponseBuilder<Transaction>(false).withMessage("Please select an item first!").build();
         }
 
-        User user = SessionManager.getInstance().getUser();
-        Transaction transaction = new Transaction("", user.getUserId(), item.getItemId());
+        Transaction transaction = new Transaction("", userId, item.getItemId());
         transaction.save();
         Wishlist.removeItem(item.getItemId());
 

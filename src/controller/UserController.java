@@ -23,7 +23,7 @@ public class UserController {
 
         User user;
         try {
-            user = User.find(username);
+            user = User.getByUsername(username);
             if (user == null) {
                 return new ResponseBuilder<User>(false).withMessage("User not found").build();
             }
@@ -101,7 +101,7 @@ public class UserController {
      * @return true if the user exists, false otherwise
      */
     public static Boolean exists(String username) {
-        return User.find(username) != null;
+        return User.getByUsername(username) != null;
     }
 
     /**

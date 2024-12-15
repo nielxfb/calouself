@@ -23,7 +23,20 @@ public class User {
         this.role = role;
     }
 
-    public static User find(String username) {
+    public static User find(String userId) {
+        String query = "SELECT * FROM users WHERE user_id = '" + userId + "'";
+        Connect db = Connect.getConnection();
+        try (ResultSet rs = db.executeQuery(query)) {
+            if (rs.next()) {
+                return new User(rs.getString("user_id"), rs.getString("username"), rs.getString("password"), rs.getString("phone_number"), rs.getString("address"), rs.getString("role"));
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
+    }
+
+    public static User getByUsername(String username) {
         String query = "SELECT * FROM users WHERE username = '" + username + "'";
         Connect db = Connect.getConnection();
         try (ResultSet rs = db.executeQuery(query)) {

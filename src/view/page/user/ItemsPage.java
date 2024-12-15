@@ -16,16 +16,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import middleware.AuthMiddleware;
 import model.Item;
 import model.Offer;
 import model.Transaction;
 import model.Wishlist;
 import util.AlertManager;
-import util.StageManager;
+import util.SessionManager;
 import view.component.item.ItemTable;
 import view.component.navbar.UserNavbar;
-import view.page.LoginPage;
 
 import java.util.ArrayList;
 
@@ -94,7 +92,7 @@ public class ItemsPage extends Page<BorderPane> {
             if (!purchase) {
                 return;
             }
-            Response<Transaction> response = TransactionController.createTransaction(selectedItem);
+            Response<Transaction> response = TransactionController.createTransaction(selectedItem, SessionManager.getInstance().getUser().getUserId());
             if (response.isSuccess) {
                 AlertManager.showSuccess(response.message);
                 selectedItem = null;
