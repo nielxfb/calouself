@@ -15,7 +15,7 @@ public class Wishlist {
     private Item item;
 
     public Wishlist(String wishlistId, String userId, String itemId, Item item) {
-        this.wishlistId = wishlistId;
+        this.wishlistId = wishlistId.isEmpty() ? UUID.randomUUID().toString() : wishlistId;
         this.userId = userId;
         this.itemId = itemId;
         this.item = item;
